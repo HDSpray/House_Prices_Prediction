@@ -10,7 +10,7 @@ test_data = pd.read_csv('../input/test.csv')
 y = train_data.SalePrice
 X = train_data.drop(['SalePrice'], axis=1)
 
-# endcoded the data
+# encoded the data
 encoded_training_predictors = pd.get_dummies(X)
 encoded_testing_predictors = pd.get_dummies(test_data)
 final_train, final_test = encoded_training_predictors.align(
@@ -20,7 +20,7 @@ final_train, final_test = encoded_training_predictors.align(
 train_X, test_X, train_y , test_y = train_test_split(
         final_train, y, random_state=17)
 
-# Bachup the data and fix the missing value
+# Backup the data and fix the missing value
 imputed_X_train_plus = train_X.copy()
 imputed_X_test_plus = test_X.copy()
 imputed_final_test = final_test.copy()
@@ -47,17 +47,17 @@ output_test = imputer.transform(imputed_final_test)
 model = XGBRegressor(n_estimators=1000, learning_rate=0.05)
 model.fit(train_X, train_y, early_stopping_rounds=5, eval_set=[(test_X, test_y)], verbose=False) 
 
-# test the accuary
+# test the actuary
 val_predictions = model.predict(test_X)
 print("Mean Absolute Error : " + str(mean_absolute_error(val_predictions, test_y)))
 
 # output
-ouput_predictions = model.predict(output_test)
-print(ouput_predictions)
+output_predictions = model.predict(output_test)
+print(output_predictions)
 
 my_submission = pd.DataFrame({
-        'Id' : test_data.Id, 
-        'SalePrice' : ouput_predictions
+        'Id': test_data.Id,
+        'SalePrice': output_predictions
     })
 my_submission.to_csv('submission.csv', index=False)
 
